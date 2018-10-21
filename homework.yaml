@@ -113,7 +113,7 @@
 - name: Smoke Test
   hosts: localhost
   tasks:
-    - name:
+    - name: Create Project
       shell: oc new-project smoke-test
-    - name:
+    - name: Create App
       shell: oc new-app nodejs-mongo-persistent
