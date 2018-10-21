@@ -51,3 +51,19 @@
     - name: make sure you are system:admin
       shell: oc whoami | grep system:admin
 
+- name: Install  nfs package
+  hosts: nfs
+  tasks:
+    - name: required packages are present
+      yum:
+        name:
+          - nfs-utils
+        state: present
+
+- name: Create PVs for Users
+  hosts: nfs
+  tasks:
+    - name: Create pV
+      script: /root/ocp_advanced_deployment_homework/scripts/create_pvs.sh
+    - name: Restarting NFS Server...
+      shell: systemctl restart nfs-server
