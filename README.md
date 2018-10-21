@@ -1,0 +1,4 @@
+# ocp_advanced_deployment_homework
+# ocp_advanced_deployment_homework
+# Openshift
+# ocp_advanced_deployment_homework_new
