@@ -67,3 +67,53 @@
       script: /root/ocp_advanced_deployment_homework/scripts/create_pvs.sh
     - name: Restarting NFS Server...
       shell: systemctl restart nfs-server
+- name: Install  nfs package
+  hosts: nfs
+  tasks:
+    - name: required packages are present
+      yum:
+        name:
+          - nfs-utils
+        state: present
+
+- name: Create PVs for Users
+  hosts: nfs
+  tasks:
+    - name: Create pV
+      script: /root/ocp_advanced_deployment_homework/scripts/create_pvs.sh
+    - name: Restarting NFS Server...
+      shell: systemctl restart nfs-server
+
+- name: Create 25 definitions files for PVs 5G size
+  hosts: localhost
+  tasks:
+    - name: Create pV
+      script: /root/ocp_advanced_deployment_homework/scripts/pvs_5Gsize.sh
+
+- name: Create 25 definitions files for PVs 10G size
+  hosts: localhost
+  tasks:
+    - name: Create pV
+      script: /root/ocp_advanced_deployment_homework/scripts/pvs_10Gsize.sh
+
+- name: Create all PVs from definitions files
+  hosts: localhost
+  tasks:
+    - name: Create pV
+      script: /root/ocp_advanced_deployment_homework/scripts/pvs_def.sh
+
+- name: Fix NFS Persistent Volume Recycling
+  hosts: localhost
+  tasks:
+    - name: docker pull
+      shell: ansible nodes -m shell -a "docker pull registry.access.redhat.com/openshift3/ose-recycler:latest"
+    - name: docker tag
+      shell: ansible nodes -m shell -a "docker tag registry.access.redhat.com/openshift3/ose-recycler:latest registry.access.redhat.com/openshift3/ose-recycler:v3.10.14"
+
+- name: Smoke Test
+  hosts: localhost
+  tasks:
+    - name:
+      shell: oc new-project smoke-test
+    - name:
+      shell: oc new-app nodejs-mongo-persistent
