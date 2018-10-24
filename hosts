@@ -62,16 +62,20 @@ osm_cluster_network_cidr=10.1.0.0/16
 openshift_portal_net=172.30.0.0/16
 
 #os_sdn_network_plugin_name='redhat/openshift-ovs-subnet'
-os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
-# os_sdn_network_plugin_name='redhat/openshift-ovs-networkpolicy'
+#os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+os_sdn_network_plugin_name='redhat/openshift-ovs-networkpolicy'
 
 ###########################################################################
 ### OpenShift Authentication Vars
 ###########################################################################
 
 # htpasswd Authentication
-openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
-openshift_master_htpasswd_file=/root/htpasswd.openshift
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+# Defining htpasswd users
+#openshift_master_htpasswd_file=<path>/htpasswd.openshift
+openshift_master_htpasswd_users={'admin': 'admin:$apr1$8RyJ8EHP$niF29aAGt5Nh00ojbU5vO0','evvpk1':'Amy:$apr1$vqVK9dpw$GuRHsDenUT2HjnltmCYVI1','evlxk1':'Andrew:$apr1$7w6RkOLF$UjcSGg2foj4RgaO3RylIY1','Brian:$apr1$jnL2wyNV$.ccD5ntBnRsu2l9Nceb/V/','Betty:$apr1$Gc8cGXpn$cg/7Q.OQHupweiDOXerDT1'}
+
+
 
 ###########################################################################
 ### OpenShift Metrics and Logging Vars
@@ -160,6 +164,11 @@ openshift_logging_curator_default_days=2
 ###########################################################################
 ### OpenShift Router and Registry Vars
 ###########################################################################
+
+# Infra components node  selector
+openshift_hosted_infra_selector={"node-role.kubernetes.io/infra": "true"}
+openshift_router_selector={"node-role.kubernetes.io/infra": "true"}
+openshift_registry_selector={"node-role.kubernetes.io/infra": "true"}
 
 openshift_hosted_router_replicas=2
 

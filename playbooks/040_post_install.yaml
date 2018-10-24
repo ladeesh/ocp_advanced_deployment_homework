@@ -1,0 +1,50 @@
+---
+- name: Copy the system:admin certificate in the bastion 
+  hosts: masters[0]
+  tasks:
+    - name: Copy files
+      fetch:
+        src: /root/.kube/config
+        dest: /root/.kube/config
+        flat: yes
+
+
+- name: Create the new network policy
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Label the default project
+      command: "oc label namespace default name=default"
+
+    - name: Load project template
+      command: "oc create -f ../resources/project_template.yaml -n default"
+
+- name: Tell openshift to use the new template
+  hosts: masters
+  tasks:
+    - name: Add the new project template
+      replace:
+        path: /etc/origin/master/master-config.yaml
+        regexp: "  projectRequestTemplate: ''"
+        replace:  "  projectRequestTemplate: 'default/project-request'"
+
+- name: Restart master services to use the new project template
+  hosts: masters
+  tasks:
+    - name: Restart API
+      service:
+        name: atomic-openshift-master-api
+        state: restarted
+
+    - name: Restart controllers
+      service:
+        name: atomic-openshift-master-controllers
+        state: restarted
+
+- name: Smoke Test
+  hosts: localhost
+  tasks:
+    - name: Create Project
+      shell: oc new-project smoke-test
+    - name: Create App
+      shell: oc new-app nodejs-mongo-persistent

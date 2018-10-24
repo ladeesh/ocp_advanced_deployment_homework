@@ -1,0 +1,15 @@
+---
+- name: Add user Ladeesh
+  hosts: masters
+  tasks:
+    - name: Add ladeesh to the htpasswd
+      command: "htpasswd -b /etc/origin/master/htpasswd ladeesh ladeesh"
+
+- name: Create clients, groups and projects
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Add users to openshift
+      command: "oc create -f ../resources/user_cluster_admin.yaml"
+    - name: Add policies to groups
+      command: "oc adm policy add-cluster-role-to-user cluster-admin ladeesh"

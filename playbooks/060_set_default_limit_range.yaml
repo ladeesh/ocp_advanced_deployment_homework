@@ -1,0 +1,31 @@
+---
+- name: Use admissionControl plugin to set specific limits per label
+  hosts: masters
+  tasks:
+    - blockinfile:
+        path: /etc/origin/master/master-config.yaml
+        block: |3
+               ProjectRequestLimit:
+                 configuration:
+                   apiVersion: v1
+                   kind: ProjectRequestLimitConfig
+                   limits:
+                     - selector:
+                         client: alpha 
+                     - selector:
+                         client: beta
+                       maxProjects: 5
+                     - maxProjects: 10
+        insertafter: "pluginConfig"
+        marker: "# {mark} Modification of the admissionCOntrol plugin" 
+
+    - name: Restart API
+      service:
+        name: atomic-openshift-master-api
+        state: restarted
+
+    - name: Restart controllers
+      service:
+        name: atomic-openshift-master-controllers
+        state: restarted
+
