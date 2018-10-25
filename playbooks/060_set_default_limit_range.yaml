@@ -18,14 +18,11 @@
                      - maxProjects: 10
         insertafter: "pluginConfig"
         marker: "# {mark} Modification of the admissionCOntrol plugin" 
-
+- name: Restart API
+  hosts: localhost
+  tasks:
     - name: Restart API
-      service:
-        name: atomic-openshift-master-api
-        state: restarted
-
+      shell: ansible masters -m shell -a "/usr/local/bin/master-restart api"
     - name: Restart controllers
-      service:
-        name: atomic-openshift-master-controllers
-        state: restarted
+      shell: ansible masters -m shell -a "/usr/local/bin/master-restart controllers"
 

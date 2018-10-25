@@ -29,17 +29,12 @@
         replace:  "  projectRequestTemplate: 'default/project-request'"
 
 - name: Restart master services to use the new project template
-  hosts: masters
+  hosts: localhost
   tasks:
     - name: Restart API
-      service:
-        name: atomic-openshift-master-api
-        state: restarted
-
+      shell: ansible masters -m shell -a "/usr/local/bin/master-restart api"
     - name: Restart controllers
-      service:
-        name: atomic-openshift-master-controllers
-        state: restarted
+      shell: ansible masters -m shell -a "/usr/local/bin/master-restart controllers"
 
 - name: Smoke Test
   hosts: localhost

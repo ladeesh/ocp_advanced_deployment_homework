@@ -52,7 +52,7 @@ openshift_master_cluster_hostname=loadbalancer1.GUID.internal
 openshift_master_cluster_public_hostname=loadbalancer1.GUID.example.opentlc.com
 openshift_master_default_subdomain=apps.GUID.example.opentlc.com
 #openshift_master_ca_certificate={'certfile': '/root/intermediate_ca.crt', 'keyfile': '/root/intermediate_ca.key'}
-openshift_master_overwrite_named_certificates=True
+#openshift_master_overwrite_named_certificates=True
 
 ###########################################################################
 ### OpenShift Network Vars
@@ -70,10 +70,10 @@ os_sdn_network_plugin_name='redhat/openshift-ovs-networkpolicy'
 ###########################################################################
 
 # htpasswd Authentication
-openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 # Defining htpasswd users
-#openshift_master_htpasswd_file=<path>/htpasswd.openshift
-openshift_master_htpasswd_users={'admin': 'admin:$apr1$8RyJ8EHP$niF29aAGt5Nh00ojbU5vO0','evvpk1':'Amy:$apr1$vqVK9dpw$GuRHsDenUT2HjnltmCYVI1','evlxk1':'Andrew:$apr1$7w6RkOLF$UjcSGg2foj4RgaO3RylIY1','Brian:$apr1$jnL2wyNV$.ccD5ntBnRsu2l9Nceb/V/','Betty:$apr1$Gc8cGXpn$cg/7Q.OQHupweiDOXerDT1'}
+#openshift_master_htpasswd_file=/etc/origin/master/htpasswd/htpasswd.openshift
+openshift_master_htpasswd_users={'admin':'$apr1$8RyJ8EHP$niF29aAGt5Nh00ojbU5vO0','Amy':'$apr1$vqVK9dpw$GuRHsDenUT2HjnltmCYVI1','Andrew':'$apr1$7w6RkOLF$UjcSGg2foj4RgaO3RylIY1','Brian':'$apr1$jnL2wyNV$.ccD5ntBnRsu2l9Nceb/V/','Betty':'$apr1$Gc8cGXpn$cg/7Q.OQHupweiDOXerDT1'}
 
 
 
@@ -165,16 +165,13 @@ openshift_logging_curator_default_days=2
 ### OpenShift Router and Registry Vars
 ###########################################################################
 
-# Infra components node  selector
-openshift_hosted_infra_selector={"node-role.kubernetes.io/infra": "true"}
-openshift_router_selector={"node-role.kubernetes.io/infra": "true"}
-openshift_registry_selector={"node-role.kubernetes.io/infra": "true"}
 
 openshift_hosted_router_replicas=2
 
 # openshift_hosted_router_certificate={"certfile": "/path/to/router.crt", "keyfile": "/path/to/router.key", "cafile": "/path/to/router-ca.crt"}
 
-
+openshift_router_selector={"node-role.kubernetes.io/infra": "true"}
+openshift_registry_selector={"node-role.kubernetes.io/infra": "true"}
 openshift_hosted_registry_replicas=1
 
 openshift_hosted_registry_storage_kind=nfs
