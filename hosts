@@ -19,6 +19,7 @@ openshift_deployment_type=openshift-enterprise
 openshift_disable_check="disk_availability,memory_availability,docker_image_availability"
 oreg_url=registry.access.redhat.com/openshift3/ose-${component}:${version}
 openshift_examples_modify_imagestreams=true
+openshift_master_dynamic_provisioning_enabled=true
 
 # Node Groups
 openshift_node_groups=[{'name': 'node-config-master', 'labels': ['node-role.kubernetes.io/master=true','runtime=docker']}, {'name': 'node-config-infra', 'labels': ['node-role.kubernetes.io/infra=true','runtime=docker']}, {'name': 'node-config-glusterfs', 'labels': ['runtime=docker']}, {'name': 'node-config-compute', 'labels': ['node-role.kubernetes.io/compute=true','runtime=docker'], 'edits': [{ 'key': 'kubeletArguments.pods-per-core','value': ['20']}]}]
@@ -52,7 +53,7 @@ openshift_master_cluster_hostname=loadbalancer1.GUID.internal
 openshift_master_cluster_public_hostname=loadbalancer1.GUID.example.opentlc.com
 openshift_master_default_subdomain=apps.GUID.example.opentlc.com
 #openshift_master_ca_certificate={'certfile': '/root/intermediate_ca.crt', 'keyfile': '/root/intermediate_ca.key'}
-#openshift_master_overwrite_named_certificates=True
+openshift_master_overwrite_named_certificates=True
 
 ###########################################################################
 ### OpenShift Network Vars
