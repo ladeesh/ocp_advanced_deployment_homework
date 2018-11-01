@@ -39,8 +39,8 @@
           - atomic-openshift-clients
         state: present
 
-- name: Generate Inventory Hosts File
-  hosts: localhost
-  tasks:
-    - name: Generate Inventory script
-      script: ../scripts/generate_inventory.sh
+#- name: Generate Inventory Hosts File
+#  hosts: localhost
+#  tasks:
+#    - name: Generate Inventory script
+#      script: ../scripts/generate_inventory.sh

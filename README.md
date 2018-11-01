@@ -8,8 +8,9 @@
 
 * #####################################*
 * launch a new homework environment
-* clone a repo
+* clone the repo
 * execute below command
-  ansible-playbook homework.yaml
+  sh install.sh
+
 
 * Default Password for the users "r3dh4t1!"
