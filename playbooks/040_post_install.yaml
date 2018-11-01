@@ -52,8 +52,8 @@
 - name: Smoke Test
   hosts: localhost
   tasks:
-    - name: Login as system admin
-      shell: oc login -u system:admin > /dev/null
+#    - name: Login as system admin
+#      shell: oc login -u system:admin > /dev/null
     - name: Create Project
       shell: oc new-project smoke-test
     - name: Create App
