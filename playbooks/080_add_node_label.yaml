@@ -1,0 +1,6 @@
+---
+- name: Adding Dedicated Node Label
+  hosts: localhost
+  tasks:
+    - name: Login as cluster admin
+      script: ../scripts/node_label.sh

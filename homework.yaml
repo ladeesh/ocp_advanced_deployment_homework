@@ -20,8 +20,11 @@
 - name: Create the default projects
   import_playbook: ./playbooks/070_multitenancy_clients_projects.yaml
 
+- name: Create Dedicate Node Label
+  import_playbook: ./playbooks/080_add_node_label.yaml
+
 - name: Create CICD Workflow
-  import_playbook: ./playbooks/080_cicd_workflow.yaml
+  import_playbook: ./playbooks/090_cicd_workflow.yaml
 
 - name: Create Cluster Admin
-  import_playbook: ./playbooks/090_add_cluster_admin.yaml
+  import_playbook: ./playbooks/100_add_cluster_admin.yaml
