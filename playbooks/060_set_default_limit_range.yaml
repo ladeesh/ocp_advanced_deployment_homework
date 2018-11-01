@@ -38,3 +38,7 @@
       delay: 5
       register: result
       until: result.rc == 0
+
+    - name: sleep for 30 seconds and continue with play
+      wait_for: timeout=30
+      delegate_to: localhost
