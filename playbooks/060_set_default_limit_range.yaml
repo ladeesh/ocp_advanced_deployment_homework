@@ -18,11 +18,23 @@
                      - maxProjects: 10
         insertafter: "pluginConfig"
         marker: "# {mark} Modification of the admissionCOntrol plugin" 
-- name: Restart API
-  hosts: localhost
-  tasks:
-    - name: Restart API
-      shell: ansible masters -m shell -a "/usr/local/bin/master-restart api"
-    - name: Restart controllers
-      shell: ansible masters -m shell -a "/usr/local/bin/master-restart controllers"
+#- name: Restart API
+#  hosts: localhost
+#  tasks:
+#    - name: Restart API
+#      shell: ansible masters -m shell -a "/usr/local/bin/master-restart api"
+#    - name: Restart controllers
+#      shell: ansible masters -m shell -a "/usr/local/bin/master-restart controllers"
 
+- name: Restart master services to use the new project template
+  hosts: masters
+  tasks:
+    - name: Restart master services
+      command: /usr/local/bin/master-restart "{{ item }}"
+      with_items:
+      - "api"
+      - "controllers"
+      retries: 5
+      delay: 5
+      register: result
+      until: result.rc == 0

@@ -6,7 +6,7 @@
     - name: Create projects
       command: "oc adm new-project {{ item }}"
       with_items:
-        - "common-project --display-name='Common project'"
+        - "common-project --display-name='Common project' --node-selector='client=common'"
         - "alpha-project --display-name='Alpha Corp' --node-selector='client=alpha'"
         - "beta-project --display-name='Beta Corp' --node-selector='client=beta'"
 
